@@ -1,0 +1,444 @@
+\documentclass[11pt,norsk]{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage[colorlinks]{hyperref}
+\usepackage{palatino}
+\usepackage[document]{ragged2e}
+\usepackage{esint}
+
+% Standard stuff
+\usepackage{amsmath,graphicx,varioref,verbatim,amsfonts,geometry}
+% colors in text
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+% Hyper refs
+\usepackage[colorlinks]{hyperref}
+\usepackage[document]{ragged2e}
+
+% Document formatting
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{1.5mm}
+
+%Color scheme for listings
+\usepackage{textcomp}
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+
+%lengden av en vektor
+\newcommand{\norm}[1]{\lvert #1 \rvert}
+
+%Listings configuration
+\usepackage{listings}
+%Hvis du bruker noe annet enn python, endre det her for Ã¥ fÃ¥ riktig highlighting.
+\lstset{
+	backgroundcolor=\color{lbcolor},
+	tabsize=4,
+	rulecolor=,
+	language=python,
+        basicstyle=\scriptsize,
+        upquote=true,
+        aboveskip={1.5\baselineskip},
+        columns=fixed,
+	numbers=left,
+        showstringspaces=false,
+        extendedchars=true,
+        breaklines=true,
+        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+        frame=single,
+        showtabs=false,
+        showspaces=false,
+        showstringspaces=false,
+        identifierstyle=\ttfamily,
+        keywordstyle=\color[rgb]{0,0,1},
+        commentstyle=\color[rgb]{0.133,0.545,0.133},
+        stringstyle=\color[rgb]{0.627,0.126,0.941}
+        }
+        
+\newcounter{subproject}
+\renewcommand{\thesubproject}{\alph{subproject}}
+\newenvironment{subproj}{
+\begin{description}
+\item[\refstepcounter{subproject}(\thesubproject)]
+}{\end{description}}
+
+%Lettering instead of numbering in different layers
+%\renewcommand{\labelenumi}{\alph{enumi}}
+%\renewcommand{\thesubsection}{\alph{subsection}}
+
+
+%opening
+\begin{document}
+
+\title{Oblig 1\\
+\large{MEK1110}}
+\author{Lasse Steinnes}
+\date{Februar 27. 2018} 
+\maketitle{}
+
+\section*{Introduksjon}
+Formålet med besvarelsen er å dekke hovedtemaene skalering, vektor og strømfelt. 
+
+\section{Skalering}
+Dersom en ball kastes ut fra origo over en horisontal bakke, og koordinataksene har positiv retning mot høyre horisontalt (x-akse) og vertikalt oppover (y-akse), kan ballens bevegelse beskrives med 
+
+$$
+x(t) &= v_{0}t\cos\theta,
+$$
+og
+$$
+y(t) &= v_{0}t\sin\theta - \frac{1}{2}gt^{2}. 
+$$
+
+Ballen har en startfart $v_{0}$ ved tida $t_{0}$, og utkastvinkel $\theta$. Bevegelsesligningene for kastet kan utledes fra Newtons andre lov (N2L) og integrasjon av akselerasjonen. 
+
+\newline{}
+
+\subsection*{(a) Beregning av $t_{m}$ og $x(t_{m})$}
+Høyden over bakken tilsvarer y-koordinaten, og dersom $t_{m}\neq 0$ er tida da ballen treffer bakken etter kastet ($y=0$), må $t_{m}$ være bestemt av
+
+$$
+y(t_{m}) = 0 = v_{0}t_{m}\sin\theta - \frac{1}{2}gt_{m}^{2}
+			= t_{m}(v_{0}\sin\theta - \frac{1}{2}gt_{m}).
+$$ 
+Siden $t_{m} \neq 0$ må 
+
+$$
+v_{0}\sin\theta - \frac{1}{2}gt_{m} = 0, 
+$$
+
+slik at med omskriving blir 
+
+$$
+t_{m} = \frac{2v_{0}\sin\theta}{g}.
+$$
+
+Posisjonen i x-retning blir da 
+
+$$
+x(t_{m}) = v_{0}t_{m}\cos\theta = \frac{2V_{0}^{2}\sin\theta\cos\theta}{g}.
+$$
+
+\subsection*{(b) Innføring av dimensjonsløse størrelser}
+Skalering er en metode for å innføre dimensjonsløse størrelser uten enheter, ved hjelp av karakteristiske størrelser. Den karakteristiske størrelsen er en refereanse som avhenger av problemstillingen. Ofte benyttes maksimumsverdier som referansestørrelser, slik at de skalerte størrelsene ligger mellom 0 og 1. Formålet med skalering er at likningen for kastebevegelsen kan gjøres universell, der posisjonen (x,y) bestemmes ut fra essensielle parametere. Gitt $x(t_{m})$  og $t_{m}$ fra forrige avsnitt, blir skaleringen 
+
+$$
+x^{*} = \frac{x}{x_{m}} =  \frac{v_{0}t\cos\theta}{\frac{2V_{0}^{2}\sin\theta\cos\theta}{g}} = \frac{gt}{2v_{0}\sin\theta}
+$$
+og 
+$$
+y^{*} = \frac{y}{x_{m}} = \frac{v_{0}t_{m}\sin\theta - \frac{1}{2}gt_{m}^{2}}{\frac{2V_{0}^{2}\sin\theta\cos\theta}{g}} = \frac{tg}{2v_{0}\sin\theta} - \frac{g^{2}t^{2}}{4v_{0}^{2}\sin\theta\cos\theta}.
+$$
+
+Dersom 
+
+$$
+t^{*} = \frac{t}{t_{m}} =  \frac{t}{\frac{2v_{0}\sin\theta}{g}} = \frac{tg}{2v_{0}\sin\theta},
+$$
+
+gir omskriving $t = t^{*}\frac{2v_{0}\sin\theta}{g} $. Innsetting av t i $x^{*}$ og $y^{*}$ resulterer i 
+
+$$
+x^{*} = t^{*}
+$$
+$$
+y^{*} = \tan\theta(t^{*} - t^{*}^{2} )
+$$
+
+Her er det ingen essensielle parametere. Når bevegelseslikningene er skrevet på formen ovenfor må ikke enhetene på størrelsene tas hensyn til. Ved å variere utkastvinkelen $\theta$ kan alle kast beskrives med en kurve for den spesifikke utkastvinkelen. Legg merke til at vinkelen ikke må skaleres, fordi $\theta = \frac{buelengde}{radius}$; vinkelen er bestemt av forholdet mellom to størrelser med like enheter, og er dermed dimensjonsløs.
+
+\subsection*{(c) Grafisk fremstilling av skalerte kurver}
+Et program ble skrevet i programvaren Python, for å tegne de skalerte kurvene (\ref{Fig 1}, Vedlegg 1).
+
+\begin{figure}[h!]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=1.0]{Skalertkast.png} 
+        \caption{En kurve kan beskrive alle kastebevegelser for en spesifikk utkastvinkel $\theta$.}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 1}
+\end{figure}
+
+De skalerte kurvene ($\ref{Fig 1}$)kan benyttes for å finne ballens baner for forskjellige verdier av startfarten ($v_{0}$) og tyngdeakselerasjonen ($g$) fordi disse parameterne ikke er essensielle for bevegelsen. Forholdet mellom hvor langt ballen beveger seg vertikalt (y) og horisontalt (x) avhenger kun av utgangsvinkelen $\theta$ og tida, t.  
+
+\section{Strømlinjer til et todimensjonalt hastighetsfelt}
+I de påfølgende avsnittene er hastighetsfeltet $\overrightarrow{v}$  gitt ved 
+
+$$
+\overrightarrow{v} = v_{x}\widehat{i} + v_{y}\widehat{j} = xy\widehat{i} + y\widehat{j}
+$$
+ 
+\subsection*{(a) Strømlinjene til hastighetsfeltet}
+Strømlinja utgjøres av  hastighetsvektoren som tangent i ulike punkter langs strømmen. Dermed ligger en liten forskyving fra et punkt r på strømlinja , dr, i retning av $\overrightarrow{v}$. Siden $\sin\theta = 0$ for $\theta = 0$ må kryssproduktet per definisjon bli $\overrightarrow{v} \times d\overrightarrow{r} = 0$. Som et resultat av dette må $v_{x}dy =v_{y}dx$. Strømlinja blir derfor
+
+$$
+xy dy = y dx,
+$$
+$$
+dy = \frac{1}{x}dx
+$$
+
+Integrasjon gir
+$$
+\int dy = y = ln(\abs{x)+C}.
+$$
+
+Strømfunksjonen blir da skalarfunksjonen
+
+$$ 
+y - ln(\abs{x}) = C
+$$
+
+\subsection*{(b) Grafisk fremstilling av strømlinjene og hastighetsfeltet}
+Strømlinjen ble tegnet for hånd (\ref{Fig 2}). Hastighetsvektorene er tangent til strømlinja og forteller hvilken vei strømmen vil gå langs strømlinja. Siden hastighetsvektoren, $\overrightarrow{v}$, er dekomponert i x -og y-retning, vil retningen på strømmen avhenge av fortegnet til henholdvis $\widehat{i}$ og $\widehat{j}$. Stagnasjonspunktene ligger der $\overrightarrow{v} = 0$, som betyr at disse ligger langs x-aksen. 
+
+\begin{figure}[h!]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=1.0]{vecfield_hand.png} 
+        \caption{Skissering av strømlinja og retningen på strømmen, for ulike verdier av skalarfeltet (grønn: $C=1$, brun: $C = 0$, blå: $C = -1$. Stagnasjonspunkter er merket rødt.} 
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 2}
+\end{figure}
+
+Strømlinjene for ulike verdier av skalaren ble plotte, sammen med hastighetsfeltet, i et Python-program (\ref{Fig 3}, vedlegg 2).
+
+\begin{figure}[h!]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=1.0]{vskalarfelt.png} 
+        \caption{Detaljert plot av strømlinja og retningen på strømmen, for ulike verdier av skalaren (indikert i sidekanten).}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 3}
+\end{figure}
+
+\subsection*{(c) Strømfunksjonen}
+Et todimensjonalt hastighetsfelt har en strømfunksjon som beskriver strømlinja dersom $\nabla\cdot\overrightarrow{v} = 0$.
+I dette tilfellet er 
+$$
+\nabla\cdot\overrightarrow{v} = \frac{\partial{v_{x}}}{\partial{x}} + \frac{\partial{v_{y}}}{\partial{y}}
+$$
+$$
+						= y + 1 \neq 0. 
+$$ 
+
+Siden $\nabla\cdot\overrightarrow{v} \neq 0$ kan ikke strømlinja beskrives med en strømfunksjon. Dette kan kun mulig dersom hastighetsfeltet ikke har divergens.
+
+
+\section{Et annet todimensjonalt strømfelt}
+I avsnittene under er hastighetsfeltet gitt ved 
+$$
+\overrightarrow{v} = \cos(x)\sin(y)\widehat{i} -\sin(x)\cos(y)\widehat{j}
+$$
+
+\newline{}
+
+\subsection*{(a) Divergens til hastighetsfeltet}
+Divergensen til hastighetsfeltet ($\overrightarrow{v}$) er definert fraflateintegralet
+$$
+div \overrightarrow{v} = \lim_{\partial{V}\rightarrow 0}} \frac{1}{\partial{V}}\oiint_{\partial{S}} \overrightarrow{v}\cdot\overrightarrow{n} \partial{{S} = \nabla\cdot\overrightarrow{v} 
+$$
+
+Dermed blir divergensen 
+$$
+ \nabla\cdot\overrightarrow{v}  = \frac{\partial}{\partial{x}}\cos(x)\sin(y) -\frac{\partial}{\partial{y}}\sin(x)\cos(y) = 0 
+$$
+
+Virvlingen til ($\overrightarrow{v}$) er definert fra et kurveintegral
+$$
+\overrightarrow{n}\cdot curl\overrightarrow{v} = \lim_{\partial{S}\rightarrow 0}} \frac{1}{\partial{S}}\oint_{\partial{C}} \overrightarrow{v}\cdot\overrightarrow{n} \partial{{r} = \nabla\times\overrightarrow{v}.
+$$
+
+Så virvlingen til hastighetsfeltet blir
+$$
+\nabla\times\overrightarrow{v} =  \frac{\partial}{\partial{x}}v_{y} - \frac{\partial}{\partial{y}}v_{x}\widehat{k} = - 2cos(x)cos(y)\widehat{k}.
+$$
+
+Hastighetsfeltet har ingen utvidelse eller innskrenking fordi divergensen er null. Imidlertid har  $\overrightarrow{v}$ virvling i retningen  $\overrightarrow{u} = (0,0,-2\cos(x)\cos(y)).
+
+\subsection*{(b) Skisse av strømvektorer langs x -og y-aksen}
+Hastighetsvektoren $\overrightarrow{v} = \cos(x)\sin(y)\widehat{i} -\sin(x)\cos(y)\widehat{j}$} tilsvarer strømningen av henholdsvis $v_{x} = -\sin(y)$ langs y-aksen ($x=0$) og  $v_{y} = sin(x)$ langs x-aksen ($y=0$). Retningen blir tydelig dersom man setter inn for ulike x,y-verdier i $\overrightarrow{v}$ ($\ref{Fig 4}$).
+
+
+\begin{figure}[h!]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=1.0]{vecfieldxy.png} 
+        \caption{Skisse av strømvektorene langs aksene tilsvarer henholdvis $v_{x} = -\sin(y)$ langs y-aksen ($x=0$) og  $v_{y} = sin(x)$ langs x-aksen ($y=0$).}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 4}
+\end{figure}
+
+
+\subsection*{(c) Sirkulasjonen om randa}
+Sirkulasjon er definert som kurveintegralet av strømhastighetsvektoren i retningen av kurven strømmen går langs; $\oint_{C} \overrightarrow{v} dr$. 
+
+\newline{}
+
+For en kurve som beskriver randa til et rektangel med x $\epsilon [-\frac{\pi}{2},\frac{\pi}{2}]$  og y $\epsilon [-\frac{\pi}{2},\frac{\pi}{2}]$, kan sirkulasjonen beskrives som fire integraler, med tilhørende parametrisering r(t) for kurvene $C_{1}$, $C_{2}$, $C_{3}$ og $C_{4}$. Siden sirkulasjonen avhenger avhenger av hvilken vei man beveger seg langs kurven, gitt at vektoren ikke er konservativ, bestemmer retningen man velger å parametrisere fortegnet til størrelsen. Dersom sirkulasjonen går i positiv omdreiningsretning (mot klokka), blir parametriseringen henholdsvis 
+
+$$
+C_{1}: r = [x, -\frac{\pi}{2}], x \epsilon  [-\frac{\pi}{2},\frac{\pi}{2}]
+$$
+$$
+C_{2}: r = [\frac{\pi}{2}, y], y \epsilon  [-\frac{\pi}{2},\frac{\pi}{2}]
+$$
+$$
+C_{3}: r = [x, \frac{\pi}{2}], x \epsilon  [\frac{\pi}{2},-\frac{\pi}{2}]
+$$
+$$
+C_{4}: r=  [-\frac{\pi}{2}, y], y \epsilon  [\frac{\pi}{2},-\frac{\pi}{2}]
+$$
+
+Dersom parametrisering for kurven $C_{1}$ deriveres med hensyn på x,  gir omskriving av Leibniz notasjonen $d\overrightarrow{r} = [1,0] dx$. Settes parametriseringen for r inn i komponentene for $\overrightarrow{v}$ blir kurveintegralet for $C{_1}$
+$$
+\int_{C_{1}} \overrightarrow{v} dr = \int_{-\frac{\pi}{2}}^{\frac{\pi}{2}}[\cos(x)\sin(y), - \sin(x)\cos(y)]\cdot[1,0] dx
+$$
+$$
+										 =  \int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} \cos(x)\sin(y) dx 
+$$
+Langs $C_{1}$ er $y = -\frac{\pi}{2}$, så
+
+$$
+\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} \cos(x)\sin(-\frac{\pi}{2}) dx = [- \sin x]_{-\frac{\pi}{2}}^{\frac{\pi}{2}}  = -2. 
+$$
+
+De resterende integralene kan beregnes på tilsvarende måte, som gir 
+
+$$
+\oint \overrightarrow{v} dr = \sum_{i = 1}^{4} \int_{C_{i}} \overrightarrow{v} dr= -2 -2 -2 -2 = -8. 
+$$
+
+Altså er sirkulasjonen om randa til kvadratet -8, gitt vektorfeltet $\overrightarrow{v} = \cos(x)\sin(y)\widehat{i} -\sin(x)\cos(y)\widehat{j}$. At det er en sirkulasjon om randa betyr at vektoren påfører objekter som følger randa til kvadratet en rotasjonsbevegelse. 
+
+\subsection*{(d) Strømfunksjonen}
+Strømfunksjonen $\phi$ eksisterer dersom vektorfeltet er todimensjonalt, og divergensen er lik null. Begge kravene er oppfylt for $\overrightarrow{v} = \cos(x)\sin(y)\widehat{i} -\sin(x)\cos(y)\widehat{j}$ (se avsnittene ovenfor). Strømfunksjonen er definert slik at divergensen alltid blir 0, og ut fra definisjonen må 
+$$
+v_{x} = -\frac{\partial{\phi}}{\partial{y}}
+$$
+og
+$$
+v_{y} = \frac{\partial{\phi}}{\partial{x}}.
+$$
+
+Strømfunksjonen $\phi$ må da være slik at
+
+$$
+\phi(x,y) =  -\int \frac{\partial{\phi}}{\partial{y}} \partial{y} = - \int v_{x} dy = \cos(x)\cos(y) + f_{1}(x)
+$$  
+og
+$$
+\phi(x,y) =   \frac{\partial{\phi}}{\partial{x}} \partial{x} = \int v_{y} dx =  \cos(x)\cos(y) + f_{2}(y).
+$$
+
+I den siste likheten er integrasjonen utført for $\overrightarrow{v} = \cos(x)\sin(y)\widehat{i} -\sin(x)\cos(y)\widehat{j}$.
+Begge kravene $\phi$  er oppfylt dersom 
+
+$$
+\phi = \cos(x)\cos(y) 
+$$
+
+\subsection*{(e) Taylorutviklingen for tilnærmede strømlinjer nær origo}
+Strømfunksjonen ($\phi$) er konstant langs strømlinjene. $\phi$ beskriver derfor strømlinjene. En tilnærming til strømlinjene er mulig å finne ved hjelp av taylortilnærmingen. Andre ordens taylor til $\phi$ blir 
+
+$$
+T_{2}\phi(x,y) = \phi(0,0) + \frac{\partial{\phi(0,0)}}{\partial{x}}(x-0) + \frac{\partial{\phi(0,0)}}{\partial{y}}(y-0) + \frac{1}{2}\frac{\partial^{2}{\phi(0,0)}}{\partial^{2}{x}}(x-0)^{2} 
+$$
+$$
+ + \frac{1}{2}\frac{\partial{^2}{\phi(0,0)}}{\partial^{2}{y}}(y-0)^{2} + \frac{\partial{^2}{\phi(0,0)}}{\partial{y}\partial{x}}(x-0)(y-0)
+$$
+
+Med innsetting av $\phi$, slik den er beskrevet i forrige avsnitt, gir derivasjon 
+
+$$
+T_{2}\phi(x,y) = 1 - \sin(0)\cos(0)x - - \sin(0)\cos(0)y - \frac{1}{2}\cos(0)\cos(0)x^2  - \frac{1}{2}\cos(0)\cos(0)y^2 + \sin(0)\sin(0)yx,
+$$ 
+så tilnærmingen for en skalar $\phi$ om punktet (0,0) blir 
+
+$$
+\phi(x,y) \approx  T_{2}\phi(x,y)  = 1 - \frac{1}{2}x^2- \frac{1}{2}y^2.
+$$
+
+Det ble skrevet en funksjon for å beregne strømhastighetsvektorene fra strømfunksjonen ($\phi$), og tilnærmingen til strømlinja ($T_{2}\phi(x,y)$)  ble plottet sammen med strømhastighetsvektorene ($\ref{Fig 5}$,Vedlegg 3). Strømhastighetsvektorene, de røde pilene i plottet, er ikke tangent med de tilnærmede strømlinjene. Å bruke taylorapproksimasjonen for å beregne $v_{x}$ og $v_{y}$ fra definisjonen av strømfunksjon, lar seg derfor ikke gjøre i dette tilfellet. Som en konsekvens av at taylorutviklingen har til hensikt å beskrive strømlinja, og ikke dens globale hastighetsvektorer, blir det generelt feil å finne hastighetsvektorene fra taylorapproksimasjonen.  
+
+
+\begin{figure}[h!]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=1.0]{Skalarapprox.png} 
+        \caption{Tilnærmete strømlinjer for $\phi = \cos(x)\cos(y)$ ($T_{2}\phi$ om (0,0)). De røde pilene er beregnede strømhastighetsvektorer.}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 5}
+\end{figure}
+
+\section{Strømlinjer og hastighetsfelt i Python}
+\subsection*{(a) Grafisk fremstilling av konturlinjer}
+Funksjonen "streamfun" ble benyttet i et program i Python, til å beregne og plotte konturlinjene for $\phi$ med henholdvis 5 og 30 punkter (n) for x og y ($\ref{Fig 6}$, vedlegg 4). Strømlinjene blir kantete for få punkter ($n = 5$), og glattere for flere ($n=30$). Dette kommer spesielt til uttrykk nær origo, da få datapunkter resulterer i firkantete konturlinjer. De kantete konturlinjene samsvarer ikke med sirklene man ville forvente av taylortilnærmingen om (0,0), $T_{2}\phi(x,y)$. Til motsetning illusterer konturlinjene for $n=30$ en sirkulær strømlinje om origo, nettopp slik $T_{2}\phi(x,y)$ indikerer. Imidlertid er det verdt å merke seg at veldig mange datapunkter gjør at det tar lengre tid å plotte diagrammene.
+
+\begin{figure}[h!]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=1.0]{skalarfeltn.png} 
+        \caption{Strømlinjene for $\overrightarrow{v} = \cos(x)\sin(y)\widehat{i} -\sin(x)\cos(y)\widehat{j}$ med forskjellig antall datapunkter ($n=5$, $n=30$).}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 6}
+\end{figure}
+
+\subsection*{(b) Grafisk fremstilling av hastighetsfeltet}
+Funksjonen "velfield" ble benyttet til å å beregne og plotte hastighetsfeltet ($\ref{Fig 7}$, vedlegg 5). Hastighetsfeltet går som forventet i retning mot omdreiningsretningen (med klokka), som en spiral.
+
+\begin{figure}[h!]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=1.0]{vec.png} 
+        \caption{Hastighetsfeltet $\overrightarrow{v} = \cos(x)\sin(y)\widehat{i} -\sin(x)\cos(y)\widehat{j}.$}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 7}
+\end{figure}
+
+Plottet sammen med strømfunksjonen, er det tydelig at hastighetsvektorene utgjør tangentene til strømlinjen ($\ref{Fig 8}$, vedlegg 6).
+
+\begin{figure}[h!]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=1.0]{vektormskalarn30.png} 
+        \caption{Hastighetsfeltet $\overrightarrow{v} = \cos(x)\sin(y)\widehat{i} -\sin(x)\cos(y)\widehat{j}$, med strømfunksjon $\phi=\cos(x)\cos(y)$.}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 8}
+\end{figure}
+
+\section*{Vedlegg}
+\subsection*{1 Plot av skalerte kurver}
+\lstinputlisting[language=Python, firstline=1, lastline=19]{MEK_lassst_oblig1.py}
+% Skriv utdrag
+\subsection*{2 Plot av strømlinje for hastighetsfelt $\overrightarrow{v} = xy\widehat{i} + y\widehat{j}$}
+\lstinputlisting[language=Python, firstline=20, lastline=56]{MEK_lassst_oblig1.py}
+% Skriv utdrag
+\subsection*{3 Beregning av strømvektorer og plot av tilnærming til strømfunksjonen $\phi$}
+\lstinputlisting[language=Python, firstline=57, lastline=81]{MEK_lassst_oblig1.py}
+\subsection*{4 Plot av strømfunksjonen $\phi$}
+\lstinputlisting[language=Python, firstline=1, lastline=40]{strlin.py}
+\subsection*{5 Plot av strømvektorene $\overrightarrow{v} = \cos(x)\sin(y)\widehat{i} -\sin(x)\cos(y)\widehat{j}$}
+\lstinputlisting[language=Python, firstline=1, lastline=16]{velfield.py}
+\subsection*{6 Plot av strømvektor og strømfunksjonen sammen$}
+\lstinputlisting[language=Python, firstline=133, lastline=140]{MEK_lassst_oblig1.py}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

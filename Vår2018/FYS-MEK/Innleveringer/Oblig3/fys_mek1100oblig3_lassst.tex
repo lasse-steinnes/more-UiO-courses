@@ -1,0 +1,288 @@
+\documentclass[11pt,norsk]{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage[colorlinks]{hyperref}
+\usepackage{palatino}
+\usepackage[document]{ragged2e}
+
+% Standard stuff
+\usepackage{amsmath,graphicx,varioref,verbatim,amsfonts,geometry}
+% colors in text
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+% Hyper refs
+\usepackage[colorlinks]{hyperref}
+\usepackage[document]{ragged2e}
+
+% Document formatting
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{1.5mm}
+
+%Color scheme for listings
+\usepackage{textcomp}
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+
+%lengden av en vektor
+\newcommand{\norm}[1]{\lvert #1 \rvert}
+
+%Listings configuration
+\usepackage{listings}
+%Hvis du bruker noe annet enn python, endre det her for Ã¥ fÃ¥ riktig highlighting.
+\lstset{
+	backgroundcolor=\color{lbcolor},
+	tabsize=4,
+	rulecolor=,
+	language=python,
+        basicstyle=\scriptsize,
+        upquote=true,
+        aboveskip={1.5\baselineskip},
+        columns=fixed,
+	numbers=left,
+        showstringspaces=false,
+        extendedchars=true,
+        breaklines=true,
+        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+        frame=single,
+        showtabs=false,
+        showspaces=false,
+        showstringspaces=false,
+        identifierstyle=\ttfamily,
+        keywordstyle=\color[rgb]{0,0,1},
+        commentstyle=\color[rgb]{0.133,0.545,0.133},
+        stringstyle=\color[rgb]{0.627,0.126,0.941}
+        }
+        
+\newcounter{subproject}
+\renewcommand{\thesubproject}{\alph{subproject}}
+\newenvironment{subproj}{
+\begin{description}
+\item[\refstepcounter{subproject}(\thesubproject)]
+}{\end{description}}
+
+%Lettering instead of numbering in different layers
+%\renewcommand{\labelenumi}{\alph{enumi}}
+%\renewcommand{\thesubsection}{\alph{subsection}}
+
+
+%opening
+\begin{document}
+
+\title{Oblig 3\\
+\large{FYS-MEK1110}}
+\author{Lasse Steinnes}
+\date{Mars 2. 2018} 
+\maketitle
+
+\section*{Introduksjon}
+Formålet med oppgaven er å beskrive den horisontale bevegelsen til en hul metallsylinder (5 kg) langs et metallrør. En fjær med fjærkonstant $k = 500 N/m$ er festet til sylinderen og et bord, slik at avstanden mellom objektene er 0.3 m (h). Lengden til fjæra i likevektsposisjon ($l_{0}$) er 0.5 m. 
+
+\subsection*{(a) Horisontalposisjonen, $x_{0}$} 
+Horisontalposisjonen ($x_{0}$), til sylinderen når fjæra har likevektslengden, blir ved hjelp av Pytagoras
+
+$$
+x_{0} = \sqrt{l_{0}^2-h^2} = \sqrt{0.5 m^2-0.3 m^2} = 0.4 m. 
+$$
+
+\subsection*{(b) Fjæras lengde som funksjon av x}
+Når fjæra er utstrekt eller komprimert kan fjærlengden beskrives på to måter
+$$
+ l = \cos(\alpha),
+$$
+og 
+$$
+l = \sqrt{x^2 +h^2}.
+$$ 
+
+Den første likheten er utledet ved hjelp av forholdet $\cos(\alpha) = \frac{hosliggende katet}{hypotenus}$, mens den andre følger direkte fra Pytagoras setning om rettvinklede trekanter.
+
+\subsection*{(c) Frilegemediagram av sylinderen}
+Gravitasjonkraften, normalkraft, fjærkraft og friksjonskraft vil virke på sylinderen ($\ref{Fig 1}$).
+
+\begin{figure}[h!]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=0.8]{Oblig3fysmekfrilegeme} 
+        \caption{Frilegemediagram av kreftene som vil virke på en hul sylinder festet i en fjær og et metallrør: Fjærkraften (T), normalkraft (N), gravitasjonskraft (G) og friksjonskraft ($F_{d}$ virker på legemet. Friksjonskraftene avhenger av retning på bevegelsen (i dette tilfellet til høyre).}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 1}
+\end{figure}
+
+\subsection*{(d) og (e): Horisontal fjærkraft}
+Den horisontal fjærkraften er en diagonal kraft som kan dekomponeres langs aksene. Dersom $r = x\widehat{i} + h\widehat{j}$,
+og fjærkrafta er gitt ved 
+$$
+F = -k(\norm{\overrightarrow{r}} - l_{0})\frac{\overrightarrow{r}}{\norm{\overrightarrow{r}}}, 
+$$
+
+blir fjærkraften i horisontal retning 
+$$
+F_{x} = -k(\sqrt{x^2 + h^2} - l_{0})\frac{x}{\sqrt{x^2 + h^2}} = - kx(1 - \frac{l_{0}}{\sqrt{x^2 + h^2}}).
+$$
+ 
+Siden fjærkraften virker mot bevegelsesretningen, er den forventet å øke negativt når sylinderen beveger seg i positiv retning fra $x_{0}$, og fjæra strekkes ($\ref{Fig 2}$), vedlegg 1). Imidlertid vil $F_{x}$ øke positivt når bevegelsen er motsatt rettet fra $x_{0}$, på grunn av valg av positiv x-koordinatakse mot høyre. Siden fjæra presser mot kompresjon, får man en sigmoid kurve mellom $ -x_{0} \leq x \leq x_{0}$. Dersom fjæra er strukket over $l_{0}$ og slippes, vil den sprette tilbake i motsatt retning. Om fjæra dekomprimeres, vil kraften virke slik at den skyves ut langs siden. På grunn av at det trengs en del kraft for at fjæra skal endre side i forhold til festepunktet, må fjæra dekomprimeres/strekkes for å få en bevegelse fram og tilbake. 
+
+\begin{figure}[h!]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=0.8]{fig1} 
+        \caption{Horisontal fjærkraft $F_{x}$ (N) som en funksjon av posisjonen, x (m).}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 2}
+\end{figure}
+
+\subsection*{(f) Posisjon og hastighet for $x_{0} = 0.6$}
+Det ble skrevet et program for å løse og gi en grafisk fremstilling av bevegelsesligningene gitt $x_{0} = 0.6 $ m, og $v_{0}= 0 $m/s ($\ref{Fig 3}$, Vedlegg 2). Sylinderen vil pendle frem og tilbake 11 ganger i løpet av de første 10 sekundene, men fortsatt holde seg til høyre fjæras festepunkt ($x = 0$ m). Siden friksjonen ikke er inkludert som en horisontal kraft, vil sylinderen ikke miste noe av sin hastighet. 
+
+ \begin{figure}[h!]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=0.70]{gi2} 
+        \caption{Hastighet og posisjon til sylinderen for de første 10 sekundene, gitt $x_{0} = 0.6$ m, og $v_{0}=$ 0 m/s .}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 3}
+\end{figure}
+
+\subsection*{(g) Posisjon og hastighet for $x_{0} = 0.65$}
+Det samme programmet ble kjørt med  $x_{0} = 0.65$ ($\ref{Fig 4}$). I denne startposisjonen får sylinderen så mye horisontal fjærkraft at den blir skøvet over på venstre side av fjæras festepunkt. Nær festepunktet vil fjæra dekomprimeres og den kinetiske energien endres til potensiell energi i fjæra. Derfor minker farten i bevegelsesretningen, før sylinderen skyter fart igjen når fjæra snur, og bruker sin potensielle energi til kinetisk energi i bevegelsesretningen.  Farten er symmetrisk om dette punktet fordi energi ikke går tapt i form av varme fra friksjonen og energien er bevart i systemet.
+
+ \begin{figure}[h!]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=0.70]{fig3} 
+        \caption{Hastighet og posisjon til sylinderen for de første 10 sekundene, gitt $x_{0} = 0.65$ m, og $v_{0}= 0$ m/s .}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 4}
+\end{figure}
+
+\subsection*{(h) Den vertikale fjærkraften}
+Den vertikale fjærkraften tilsvarer krafta i $\widehat{j}$ komponent, langs y-aksen. Dersom $r = x\widehat{i} + h\widehat{j}$,
+og fjærkrafta er gitt ved 
+$$
+F = -k(\norm{\overrightarrow{r}} - l_{0})\frac{\overrightarrow{r}}{\norm{\overrightarrow{r}}}, 
+$$
+
+blir fjærkraften i vertikal retning 
+$$
+F_{y} = -k(\sqrt{x^2 + h^2} - l_{0})\frac{h}{\sqrt{x^2 + h^2}} = - kh(1 - \frac{l_{0}}{\sqrt{x^2 + h^2}}).
+$$
+
+\subsection*{(i) og (j): Normalkraften på sylinderen}
+Summen av kreftene i y-retning består av 
+
+$$
+\sum F_{y_{tot}} = G + F_{y} + N.
+$$
+
+Akselerasjonen vertikal er lik 0. Ved Newtons andre lov (N2L) gjelder $\sum F_{y_{tot}} = 0$, som ved omskrivning gir en generell funksjon for normalkraften, avhengig av x
+$$
+N = - (G + F_{y}) = mg + kh(1 - \frac{l_{0}}{\sqrt{x^2 + h^2}}).
+$$
+
+Satt inn for $l_{0} = 0.5$ m,  $h = 0.3$ m og $k = 500$ N/m, blir normalkraften 49.05 N. Den holder sylinderen oppe, og virker mot gravitasjonen.
+
+\subsection*{(k) Løsning for x når $N = 0$}
+Dersom det ikke skal virke noen normalkraft på sylinderen må 
+$$
+N = 0 = mg + kh(1-\frac{l_{0}}{x^2 + h^2}).
+$$
+
+Omskriving gir
+$$
+- \sqrt{x^2 +h^2}(mg+kh) = -khl_{0},
+$$
+og
+$$
+\sqrt{x^2 +h^2} = \frac{khl_{0}}{mg+kh} = \frac{l_{0}}{\frac{mg}{kh}+1}.
+$$
+Kvadreres uttrykket på begge sider, og løser for x gir dette
+$$
+x = \pm \sqrt{(\frac{l_{0}}{1+\frac{mg}{kh}})^{2}-h^2}
+$$
+
+\subsection*{(l) Numerisk løsning for bevegelseligningene med friksjon}
+Programmet fra tidligere oppgaver ble endret til å inkludere friksjonskraften ($\mu_{d}=0.05$) som virker horisontalt, og løsningen for hastighet og posisjon ble fremstilt grafisk ($\ref{Fig 5}$, Vedlegg 3). Med friksjonskraft mister sylinderen hastighet. Friksjonen tar opp kinetisk energi, og omdanner den til indre kinetisk energi i stålrøret som avgis i form av varme. Ettersom hastigheten saknes, blir svingningen fram og tilbake mindre. 
+
+ \begin{figure}[h!]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=0.70]{fig4} 
+        \caption{Hastighet og posisjon til sylinderen for de første 10 sekundene, gitt $x_{0} = 0.75$ m, og $v_{0}= 0$ m/s. I modellen er det tatt hensyn til friksjonskraft; $f_{d} = \mu N$ ($\mu _{d}=0.05$).}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 5}
+\end{figure}
+
+\subsection*{(m) Grafisk fremstilling av kinetisk energi}
+Et program ble skrevet for å beskrive den kinetiske energien $K = \frac{1}{2}mv^2 $som en funksjon av posisjon ($\ref{Fig 6}$, Vedlegg 4). Den kinetiske energien er avhengig av farten, og siden farten kvadreres, kan den kun være positiv. Ettersom farten minker rundt fjæras festepunkt($\ref{Fig 5}$) gjør også den kinetiske energien det. Kinetisk energi blir omdannet til potensiell energi, men noe mistes også til varmeenergi på grunn av friksjonskraften. Energi er altså ikke bevart, og kinetisk energi minker totalt sett i systemet, noe som gjør at sylinderet stopper til venstre for fjæras festepunkt ($\ref{Fig5}$ , $\ref{Fig 6}$). 
+
+ \begin{figure}[h!]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=1.0]{fig5} 
+        \caption{Kinetisk energi (J), som en funksjon av posisjon til sylinderen (m).}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 6}
+\end{figure}
+
+\subsection*{(n) Arbeidet som trengs for å flytte sylinderen fra $x_0 = 0.4$ til x=0.75}
+Arbeid er definert som 
+
+$$
+W = \int_{x_{0}}^{x} F(x) dx.
+$$
+
+For 
+$$
+F(x) =  -k*(0.05*h+x)*(1-\frac{l_{0}}{\sqrt(x**2 + h**2}) - 0.05*m*g,
+$$
+ble trapesmetoden for numerisk integrasjon benyttet til å løse integralet (Vedlegg 5), slik at 
+$$
+W = -85.05 Nm.
+$$
+
+\subsection*{(o) Potensiell energi}
+Alle kreftene som virker på legemet er kun avhengige av posisjonen, x, som fri variabel. Derfor er kreftene konservative, og følgende likhet gjelder
+
+$$
+\frac{dU(x)}{dx} = -F(x)
+$$
+
+Ved hjelp av numerisk integrasjon, kan man løse for potensialfunksjonen, U(x), som beskriver potensiell energi. Det ble skrevet et program i Python for å løse for den potensielle energien ($\ref{Fig 7}$, Vedlegg 6). Potensiell energi er størst når sylinderen er langt unna festepunktet til fjæra. Det kan forklares av at hastigheten bremses mer opp, desto lenger strukket fjæra er. Inn mot, eller ut fra, fjæras festepunkt akselerer derimot  sylinderen, og den har en høy kinetisk energi($\ref{Fig 6}$). Konsekvensen er en lavere potensiell energi. Imidlertid vil kompresjonen i fjæra bidra til en liten økning i potensiell energi omtrent når $0.2 \leq x \leq 0.2$ ($\ref{Fig 7}$). Det er i området der den kinetiske energien minker ($\ref{Fig 6}$).
+
+ \begin{figure}[h!]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=1.0]{fig6} 
+        \caption{Potensiell energi (J), som en funksjon av posisjon til sylinderen (m).}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 7}
+\end{figure}
+
+\subsection*{(p) Systemets likevektspunkter} %stabile/ustabile
+Systemets ustabile likevektspunkter vil være der potensialfunksjonen har sitt maksimum. Der vil litt kinetisk energi føre til at sylinderen beveger seg mot en av de stabile likevektspunktene, der potensialfunksjonen har sitt minimum. I de stabile likevektspunktene trengs det en aktiveringsenergi; for å flytte på sylinderen trengs det et dytt. I situasjonen med sylinderen, er det ett ustabilt likevektspunkt i $x = 0$ m, og to stabile likevektspunkter  i henholdsvis $x = \pm 0.22$  ($\ref{Fig 7}$).
+
+
+\section*{Vedlegg}
+Kommentar: Formelen for akselerasjon m/u friksjon ble utledet ved hjelp av N2L. Akselerasjonsfunksjonen er beskrevet i koden.
+
+\subsection*{1) Horisontal springkraft (e)}
+\lstinputlisting[language=Python, firstline=1, lastline=27]{oblig3FYS_mek.py}
+% Skriv utdrag
+\subsection*{2) Løsning av bevegelsesligningene numerisk (f)}
+\lstinputlisting[language=Python, firstline=28, lastline=73]{oblig3FYS_mek.py}
+\subsection*{3) Numerisk løsning av bevegelsesligningene, når akselerasjonen også avhenger av friksjon (l)}
+\lstinputlisting[language=Python, firstline=108, lastline=147]{oblig3FYS_mek.py}
+\subsection*{4) Grafisk fremstilling av kinetisk energi (m)}
+\lstinputlisting[language=Python, firstline=149, lastline=163]{oblig3FYS_mek.py}
+\subsection*{5) Numerisk integrasjon av F: Arbeidet (n)}
+\lstinputlisting[language=Python, firstline=164, lastline=174]{oblig3FYS_mek.py}
+\subsection*{6) Kumulativ numerisk integrasjon: Potensiell energi (o)}
+\lstinputlisting[language=Python, firstline=175, lastline=185]{oblig3FYS_mek.py}
+
+% Skriv utdrag
+
+\end{document}
+

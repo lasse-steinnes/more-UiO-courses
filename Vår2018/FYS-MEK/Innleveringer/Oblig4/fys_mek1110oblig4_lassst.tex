@@ -1,0 +1,282 @@
+\documentclass[11pt,norsk]{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage[colorlinks]{hyperref}
+\usepackage{palatino}
+\usepackage[document]{ragged2e}
+\usepackage{float}
+
+% Standard stuff
+\usepackage{amsmath,graphicx,varioref,verbatim,amsfonts,geometry}
+% colors in text
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+% Hyper refs
+\usepackage[colorlinks]{hyperref}
+\usepackage[document]{ragged2e}
+
+% Document formatting
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{1.5mm}
+
+%Color scheme for listings
+\usepackage{textcomp}
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+
+%lengden av en vektor
+\newcommand{\norm}[1]{\lvert #1 \rvert}
+
+%Listings configuration
+\usepackage{listings}
+%Hvis du bruker noe annet enn python, endre det her for Ã¥ fÃ¥ riktig highlighting.
+\lstset{
+	backgroundcolor=\color{lbcolor},
+	tabsize=4,
+	rulecolor=,
+	language=python,
+        basicstyle=\scriptsize,
+        upquote=true,
+        aboveskip={1.5\baselineskip},
+        columns=fixed,
+	numbers=left,
+        showstringspaces=false,
+        extendedchars=true,
+        breaklines=true,
+        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+        frame=single,
+        showtabs=false,
+        showspaces=false,
+        showstringspaces=false,
+        identifierstyle=\ttfamily,
+        keywordstyle=\color[rgb]{0,0,1},
+        commentstyle=\color[rgb]{0.133,0.545,0.133},
+        stringstyle=\color[rgb]{0.627,0.126,0.941}
+        }
+        
+\newcounter{subproject}
+\renewcommand{\thesubproject}{\alph{subproject}}
+\newenvironment{subproj}{
+\begin{description}
+\item[\refstepcounter{subproject}(\thesubproject)]
+}{\end{description}}
+
+%Lettering instead of numbering in different layers
+%\renewcommand{\labelenumi}{\alph{enumi}}
+%\renewcommand{\thesubsection}{\alph{subsection}}
+
+
+%opening
+\begin{document}
+
+\title{Oblig 4\\
+\large{FYS-MEK1110}}
+\author{Lasse Steinnes}
+\date{5. April 2018} 
+\maketitle
+
+\section*{Introduksjon}
+Formålet med oppgaven er å beskrive en enkel modell for å fange og kjøle ned atomer. Metoden som modelleres er en magnetisk-optisk felle (MOT), som benyttes for å studere atomets egenskaper i detalj.  Modellen som følger har bakgrunn i kvantemekanikk. 
+
+
+I et endimensjonalt system beveger atomet seg langs en x-akse, og befinner seg i fellen når $\left | x \right |$ < $x_{0}$.  Det antas at det magnetiske feltet gir opphav til potensialet 
+
+$$
+\[   
+U(x) = 
+     \begin{cases}
+       U_{0} & \left | x \right | \geq x_{0} \\
+       U_{0}\frac{\left |x \right |}{x_{0}} & \left | x \right | < x_{0} \\
+     \end{cases}
+\]
+$$
+
+\subsection*{a) Skisse av potensialet}
+Potensialet er konstant utenfor fellen, der atomet ikke blir påvirket av det magnetiske feltet. Imidlertid blir potensialet mindre dess nærmere $ x = 0 $ atomet kommer, dvs. nærmere senteret (\ref{Fig 1}). I $ x = 0 $ har atomet et stabilt likevektspunkt, og det vil kreve enten en initiell kinetisk energi, eller tilført kinetisk energi, for å forflytte seg vekk fra  $x = 0$. Siden kinetisk energi er gitt ved $K = \frac{1}{2}mv^{2}$, betyr det at dersom hastigheten er lav nok, vil atomet bli fanget i midten av fellen. 
+
+ \begin{figure}[H]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=1.0]{potensialet.png} 
+        \caption{Potensiell energi (J), som en funksjon av posisjon til atomet. Blå punkter er ustabile likevektspunkt, rødt punkt er stabilt likevektspunkt.}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 1}
+\end{figure}
+
+\subsection*{b) Kraften som virker på atom i kraftfeltet}
+Siden potensialet eksisterer må kraften i magnetfeltet, F(x), være konservativ. Dermed gjelder
+
+$$
+F(x) = -\frac{\delta}{\delta{x}} U(x),
+$$
+som ved derivasjon gir gir 
+$$
+\[
+F(x) = 
+	\begin{cases}
+	0 & \left |x \right|  \geq x_{0} \\
+	-U_{0}\frac{x}{x_{0}\left|x\right |} & \left | {x}  \right | < x_{0} \\
+	\end{cases}
+\]
+$$
+
+\subsection*{c) Hastigheten $v_{1}$ til atomet}
+I de følgende beregninger er massen til atomet m, og hastighet $v_{0} = \sqrt{4U_{0}/m} $ ved $ x = 0$.
+Hastigheten kan beregnes ved hjelp av arbeid-energiteoremet, som sier at 
+$$
+W_{0,1} = \int_{t_{0}}^{t_{1}} F\overrightarrow{v} dt = K_{1} - K_{0}
+$$
+
+Siden integralet av $\frac{x}{\left | {x}  \right |}$ er  $\left | {x}  \right |$ blir arbeidet fra $ 0 \leq x \leq x $:
+$$
+W = -U_{0}\frac{\left | {x}  \right |}{x_{0}}.
+$$
+
+Hastigheten i $ x = x_{0}/2$ blir vha. arbeid-energiteoremet:
+$$
+\frac{-U_{0}}{2} = \frac{1}{2}mv_{1}^{2} - \frac{1}{2}mv_{0}^{2},
+$$
+multiplisert med 2 og innsatt for $v_{0}$ gir
+$$d
+- U_{0} = mv_{1}^{2} - 4U_{0},
+$$
+og med omskriving 
+$$
+\overrightarrow{v_{1}} = \sqrt{3U_{0}}{m}
+$$
+
+
+Hastigheten for $x = 2x_{0}$, gitt at man deler opp arbeidet fra  $ 0 \leq x \leq x_{0} $ og  $ x_{0} \leq x \leq 2x_{0}$ der sistnevnte gir arbeid lik 0, blir
+
+$$
+- U_{0} = \frac{1}{2}mv_{1}^{2} - \frac{1}{2}mv_{0}^{2},
+$$
+satt inn for $v_{0}$ og multiplisert med 2, gir 
+$$
+- 2U_{0} =  mv_{1}^2 - 4U_{0}
+$$
+Omskrevet gir dette
+$$
+\overrightarrow{v_{1}} = \sqrt{\frac{2U_{0}}{m}}.
+$$ 
+
+Dette innebærer at hastigheten er størst mot midten av fellen, og hastigheten atomet oppnår i $x = 0$ vil være avgjørende for om atomet unnslipper fella eller ikke. Merk at kun positiv kvadratrot er valgt siden bevegelsen er i positiv x-retning.
+
+\subsection*{d) Hastigheten i motsatt retning}
+Dersom $v_{0} = - \sqrt{4U_{0}/m}$ ved $x = 0$ så er hastigheten ved $x = -x_{0}/2$ og $x = -2x_{0}$ henholdvis $\overrightarrow{v_{1}} =  -\sqrt{3U_{0}}{m} $ og $\overrightarrow{v_{1}} = -\sqrt{\frac{2U_{0}}{m}} $. Det følger av symmetrien til skissen (\ref{Fig 1}), og det følger også av at leddene for farten blir kvadrert, samt absoluttverdien til x i beregningen av arbeidet. 
+
+\subsection*{e) Elektrostatisk kraft for at atomet slipper unna fellen}
+Gitt en ladning på atomet, og en konstant elektrostatisk kraft, $F_{0}$, blir arbeidet som den konstante kraften utfører:
+$$
+W_{0,1} = \int_{0}^{x_{0}} F_{0} dx = F_{0}x_{0}
+$$
+Siden arbeidet kun er avhengig av veien, er energi bevart og da gjelder
+$$
+W = K_{1} - K_{0} = U_{0} - U_{1},
+$$
+som kan omskrives til 
+$$
+W = U_{1} - K_{0} = U_{0} - K_{1},
+$$
+slik at
+$$
+W + K_{0} = U_{1}. 
+$$ 
+
+Dersom atomet skal unnslippe fella må summen av arbeidet og den kinetiske energien være større enn den maksimale potensielle energien, U_{0},
+$$ 
+W + K_{0} > U_{0}.
+$$
+
+I tilfellet der $K = 0$ ved $x = 0$ har vi at 
+$$
+F_{0}x_{0} + 0  > U_{0},
+$$
+og omskriving gir
+$$
+F_{0} > \frac{U_{0}}{x_{0}}.
+$$
+
+Dersom $ K = \frac{U_{0}}{2}$ ved $x = 0$, så gjelder
+$$
+F_{0}x_{0} + \frac{U_{0}}{2} > U_{0},
+$$
+$$
+F_{0} > \frac{U_{0}}{2x_{0}}.
+$$
+
+Når atomet har kinetisk energi kreves mindre elektrostatisk energi for at atomet skal unnslippe fella.
+
+\subsection*{f) Modell med magnetisk felt og fotonkraft}
+Videre blir det antatt at atomet kun er påvirket av det magnetiske feltet, samt en kraft utgjort av fotoner med en spesifikk bølgelengde tilpasset grunnstoffet atomet tilhører: $ F = \alpha \overrightarrow{v}$. Denne kraften er ikke konservativ fordi den er en-dimensjonell og avhenger av hastighet. 
+
+Dermed er det ikke mulig å bruke energibevaring for å beskrive hastigheten. Hastighet og posisjon kan derimot bli funnet ved hjelp av å løse differensialligninger eller numeriske metoder.
+
+\subsection*{g) Uttrykk for akselerasjonen}
+De to kreftene som virker på atomet er det magnetiske feltet og fotonene. Fra N2L, så 
+$$
+\sum F_{ext} = ma
+$$
+$$
+- U_{0}\frac{x}{x_{0}\left|x\right |} - \alpha v = ma,
+$$
+Omskriving og deling på atommassen m gir
+$$
+a = -\frac{1}{m}(U_{0}\frac{x}{x_{0}\left|x\right |} + \alpha v), \left|x\right | > x_{0}.
+$$
+
+Merk at $a = 0$ for $\left|x\right | < x_{0}$.
+
+Initialbetingelsene som trengs for å løse bevegelsesligningene numerisk er $v_{0}$ og $x_{0}$. 
+
+\subsection*{h) Et program som løser bevegelsesligningene numerisk}
+Et program som benytter Euler-Chromers metode ble skrevet i python (Vedlegg 1). Programmet løser for akselerasjon, hastighet og posisjon til atomet, i tillegg til å gi en grafisk fremstilling av hastighet og posisjon. Et kort utdrag av programmet er vist nedenfor. 
+
+\lstinputlisting[language=Python, firstline=26, lastline=33]{oblig4fysmek.py}
+
+I de påfølgende oppgavene ble det benyttet ikke-dimensjonelle verdier $U_{0} = 150$, $m = 23$, $\alpha = 39.48$ og $x_{0} = 2$. Hverken tid, posisjon eller hastighet har derfor dimensjoner i de videre beregningene. 
+
+\subsection*{i) Numerisk løsning for $v_{0} = 8.0$ og $x = -5$}
+Programmet som ble skrevet i oppgave (h) ble kalt på med funksjonskallet run_euler(x,v), med  $v_{0} = 8.0$ og $x = -5$ (Vedlegg 2, $\ref{Fig 2}$). Med denne intialhastigheten vil atomet gå inn i fella, men ikke ha nok kinetisk energi ved $x = 0$ til å gå ut av det magnetiske feltet. Dermed blir atomet fanget mellom $\left|x\right | < x_{0} = 2$, og dratt mot $x = 0$ etter et par svingninger. 
+
+ \begin{figure}[H]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=0.7]{Fig1inn4.png} 
+        \caption{Hastighet og posisjon til atomet som en funksjon av tida. Om  $\left|x\right | > x_{0} = 2$ befinner atomet seg utenfor MOT'en.}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 2}
+\end{figure}
+
+\subsection*{j) Numerisk løsning for $v_{0} = 10.0$ og $x = -5$}
+Programmet som ble skrevet i oppgave (h) ble kalt på med funksjonskallet run_euler(x,v), med  $v_{0} = 10.0$ og $x = -5$ (Vedlegg 2, $\ref{Fig 3}$).  Med inititalhastightet $v_{0} = 10.0$ har atomet så stor kinetisk energi at det unnslipper den magnetisk-optiske fellen. Først minker hastigheten, for så å være konstant, fordi det ikke er antatt at noen krefter virker utenfor $\left|x\right | > x_{0} = 2$ . 
+
+
+\subsection*{k) Maksimal hastighet for atomet slik at den ikke unnslipper atomfellen}
+Maksimal hastighet ble funnet ved hjelp av den numeriske metoden (Vedlegg 3). Den maksimale initialhastigheten atomet kan ha, og fortsatt bli fanget i MOT'en, er omtrent 8.75. 
+
+
+ \begin{figure}[H]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=0.7]{Fig2inn4.png} 
+        \caption{Hastighet og posisjon til atomet som en funksjon av tida. Om  $\left|x\right | > x_{0} = 2$ befinner atomet seg utenfor MOT'en.}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 3}
+\end{figure}
+
+\section*{Vedlegg}
+
+\subsection*{1) Numerisk løsning for bevegelsesligningene (h)}
+\lstinputlisting[language=Python, firstline=1, lastline=50]{oblig4fysmek.py}
+
+\subsection*{2) Numerisk løsning for $v_{0} = 8.0$ og $x = -5$ (i), og $v_{0} = 10.0$ (j)}
+\lstinputlisting[language=Python, firstline=52, lastline=56]{oblig4fysmek.py}
+
+\subsection*{3) Maksimal initialverdi v_{0} (k)}
+\lstinputlisting[language=Python, firstline=58, lastline=71]{oblig4fysmek.py}
+
+\end{document}

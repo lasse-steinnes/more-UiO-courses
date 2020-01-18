@@ -1,0 +1,261 @@
+\documentclass[11pt,norsk]{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage[colorlinks]{hyperref}
+\usepackage{palatino}
+\usepackage[document]{ragged2e}
+\usepackage{float}
+
+% Standard stuff
+\usepackage{amsmath,graphicx,varioref,verbatim,amsfonts,geometry}
+% colors in text
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+% Hyper refs
+\usepackage[colorlinks]{hyperref}
+\usepackage[document]{ragged2e}
+
+% Document formatting
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{1.5mm}
+
+%Color scheme for listings
+\usepackage{textcomp}
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+
+%lengden av en vektor
+\newcommand{\norm}[1]{\lvert #1 \rvert}
+
+%Listings configuration
+\usepackage{listings}
+%Hvis du bruker noe annet enn python, endre det her for Ã¥ fÃ¥ riktig highlighting.
+\lstset{
+	backgroundcolor=\color{lbcolor},
+	tabsize=4,
+	rulecolor=,
+	language=python,
+        basicstyle=\scriptsize,
+        upquote=true,
+        aboveskip={1.5\baselineskip},
+        columns=fixed,
+	numbers=left,
+        showstringspaces=false,
+        extendedchars=true,
+        breaklines=true,
+        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+        frame=single,
+        showtabs=false,
+        showspaces=false,
+        showstringspaces=false,
+        identifierstyle=\ttfamily,
+        keywordstyle=\color[rgb]{0,0,1},
+        commentstyle=\color[rgb]{0.133,0.545,0.133},
+        stringstyle=\color[rgb]{0.627,0.126,0.941}
+        }
+        
+\newcounter{subproject}
+\renewcommand{\thesubproject}{\alph{subproject}}
+\newenvironment{subproj}{
+\begin{description}
+\item[\refstepcounter{subproject}(\thesubproject)]
+}{\end{description}}
+
+%Lettering instead of numbering in different layers
+%\renewcommand{\labelenumi}{\alph{enumi}}
+%\renewcommand{\thesubsection}{\alph{subsection}}
+
+
+%opening
+\begin{document}
+
+\title{Oblig 2\\
+\large{MAT1110}
+\author{Lasse Steinnes}
+\date{11. April 2018} 
+\maketitle
+
+\section*{Oppgave 1}
+\subsection*{a)}
+Dersom $f: \textbf{R}^2 \rightarrow \textbf{R}$ er gitt ved 
+$$
+f(x,y) = \frac{1}{x^4 + 2x^{2}y^{2} + y^{4} + 1},
+$$
+
+så blir det uegentlige dobbeltintegralet over $\textbf{R}^2$ for $f(x,y)$ i polarkoordinater: 
+
+$$
+\int_{0}^{\infty}\int_{0}^{2\pi}  \frac{r}{r^4\cos^4{\theta} + 2r^4\cos{\theta}\sin^2{\theta} + r^{4}\sin^{4}{\theta} +1 } dr d\theta,
+$$
+der jacobideterminanten for polarkoordinater, r, er multiplisert inn i telleren.
+
+Omskriving gir 
+$$
+\int_{0}^{\infty}\int_{0}^{2\pi}  \frac{r}{r^4(\cos^4\theta + 2\cos{\theta}\sin^2{\theta} + \sin^{4}{\theta}) +1} dr d\theta, 
+$$
+og siden parentesen kan skrives som et kvadrat, så er integralet
+$$
+ 		= \int_{0}^{\infty}\int_{0}^{2\pi}  \frac{r}{r^4(\cos^2\theta + sin^2{\theta})^2 +1} dr d\theta.
+$$
+Fordi identiteten $cos^2\theta + sin^2{\theta} = 1$, blir integralet
+$$
+\int_{0}^{\infty}\int_{0}^{2\pi} \frac{r}{r^4 +1} dr d\theta.
+$$
+
+Gjøres substitusjonen $u = r^2$, så er $du = 2r dr$, som betyr at
+$$
+\frac{1}{2} \int_{0}^{\infty}\int_{0}^{2\pi} \frac{1}{u^2 +1} du d\theta,
+$$
+
+Integranden er den deriverte til $\arctan(u)$, slik at 
+$$
+\frac{1}{2} \int_{0}^{2\pi} \arctan(u) \right |_{0}^{\infty} d\theta = \frac{1}{2} \int_{0}^{2\pi} \lim_{u \rightarrow \infty} \arctan(u) - \arctan(0)d\theta,
+$$
+og fordi $\arctan(0) = 0$, og $\lim_{u \rightarrow \infty} \arctan(u) = \frac{\pi}{2}$, blir integralet,
+
+$$
+\frac{1}{2} \int_{0}^{2\pi}  \frac{\pi}{2} d\theta =  \frac{1}{2}*\frac{\pi}{2}*2\pi = \frac{\pi^2}{2}
+$$
+
+\subsection*{b)}
+Dersom x,y $\epsilon \left [-k,k  \right ]$, og oppdelingen av disse intervallene deles opp med lik steglengde, blir partisjonen $\prod$: 
+$$
+-k = x_{0} < x_{1} < ... < x_{n-1} < x_{n} = k,
+$$
+$$
+-k = y_{0} < y_{1} < ... < y_{n-1} < y_{n} = k.
+$$
+
+Størrelsen på intervallet er fra -k til k er 2k, slik at dersom punkter $c_{ij}$  i et  utplukk U velges til endepunktet i arealelementet $R_{ij}$, blir $c_{ij} = (- k + \frac{2ki}{n}, -k + \frac{2kj}{n})$, der i,j $\epsilon [1,n  \right ]$.  Riemannsummen er definert som
+
+$$
+R(\Pi,U) = \sum_i^n\sum_j^m f(c_{ij}) |\left R_{ij} \right |
+$$
+slik at 
+$$
+R(\Pi,U) = R_n^k =  \sum_i^n\sum_j^n f(- k + \frac{2ki}{n}, -k + \frac{2kj}{n})(\frac{2k}{n})^{2}
+$$
+Etterhvert som partisjonen blir finere og finere, dvs. $\lim _{n \rightarrow \infty}$, konvergerer riemannsummen mot integralet oppgitt i a), jamfør øvre og nedre trappesum.
+
+\subsection*{c)}
+Gitt f definert som en funksjon, og n og k som heltall, kan man beregne riemannsummen numerisk i python ved hjelp av følgende algoritme:
+
+\begin{centre}
+$$
+\text{sum f = 0}
+$$
+$$
+    \text{for i in range(1,n+1):}
+$$
+$$
+        \text{for j in range(1,n+1):}
+$$
+$$
+           \text{dx = - k + 2*k*i/n}
+$$
+$$
+            \text{dy = - k + 2*k*j/n}
+$$
+$$
+            \text{sum f = f(dx,dy)*(2*k/n)**2}
+$$
+\end{centre}
+
+Algoritmen tar summen over alle i,j-er og evaluerer funksjonen for alle $c_{i,j}$ og samler summen i objektet "sum f". For hele koden og kjøreeksempel, se vedlegg 1. 
+
+\subsection*{d)}
+Verdien for n og k ble bestemt slik at riemannsummen $R_n^k$ tilnærmer seg eksaktverdien med feil mindre enn 1/10. Dette ble utført ved hjelp av en if-setning med absoluttverdien av differansen mellom eksakt og tilnærmet verdi (vedlegg 2). $n = 22$ og $k = 19$ vil gi en $\varepsilon < \frac{1}{10}$.
+
+\section*{Oppgave 2}
+Gitt at planeten Solaris har en fast kjerne med radius R, og dekket med et hav med dybde D, i tillegg til en massetetthet 
+$$
+\rho (h) = \frac{\alpha}{R + h},
+$$
+er massen gitt som volumintegralet 
+$$
+\int\int\int_{V} \rho (h) dV.
+$$
+
+Skrives integranden om til kulekoordinater gir dette 
+$$
+\int_0^\pi \int_D^R \int_0^{2\pi} \frac{\alpha (h^{2}\sin\phi)}{R +h} d\phi dh d\theta,
+$$
+som følge av at jacobideterminanten til kulekoordinater er $h^{2}\sin\phi$. Fra analysens fundamentalteorem har vi at 
+$$
+- \int_D^R \int_0^{2\pi} \left [ \frac{\alpha (h^{2}\cos\phi)}{R +h} \right ]_{0}^{\pi} dh d\theta.
+$$ 
+
+Siden $\cos(\pi) = -1$ og $\cos(0) = 1$ reduseres integralet til 
+$$
+2\alpha \int_D^R \int_0^{2\pi} \frac{h^2}{R + h} dh d\theta.
+$$
+
+Fordi graden i telleren er mindre enn i nevneren er det lurt å benytte polynomdivisjon til å redusere graden i brøken. Polynomdivisjon ble foretatt to ganger, og integranden ble redusert til
+$$
+h^2 : (R + h) = h - \frac{Rh}{R +h} = h - R + \frac{R^2}{R + h}
+$$
+
+Da blir integralet 
+$$
+2\alpha \int_D^R \int_0^{2\pi} h - R + \frac{R^2}{R + h} dh d\theta,
+$$
+og fordi R kun er en konstant blir dette
+$$
+ \int_0^{2\pi} \left [\frac{h}{2} - Rh + {R^2}ln{R + h} \right ]_{R}^{R+D} d\theta.
+$$
+Skrives dette ut kan ledd strykes mot hverandre, og benyttes regneregler for logaritmefunksjonen blir integralet som står igjen
+$$d
+ 2\alpha  \int_0^{2\pi} \frac{D^2}{2} + R^{2}ln(\frac{2R + D}{2R}) d\theta.
+$$
+
+$$
+ 			= 2\alpha 2\pi (\frac{D^2}{2} + R^{2}ln(\frac{2R + D}{2R})) - 0 
+			= 4 \alpha \pi (\frac{D^2}{2} + R^{2}ln(\frac{2R + D}{2R}))
+$$ 
+
+\section*{Oppgave 3}
+Dersom M er kvadratisk, og $\overrightarrow{x}$ og $\overrightarrow{y}$ er lineært uavhengige egenvektorer med henholdsvis egenverdier $\lambda$ og $\mu$ for M, kan en vilkårlig $\overrightarrow{v}$ skrives som en lineærkombinasjon 
+$$
+\overrightarrow{v} = a\overrightarrow{x} + b\overrightarrow{y}. 
+$$
+Dersom $\overrightarrow{v}$ også er en egenvektor med egenverdi $\phi$, må vi ha at når M multipliseres inn fra venstre 
+$$
+M\overrightarrow{v} = M(a\overrightarrow{x} + b\overrightarrow{y}). 
+$$
+Fra distributiv lov, så 
+$$
+M\overrightarrow{v} = Ma\overrightarrow{x} + Mb \overrightarrow{y}. 
+$$
+Satt inn for egenverdiene har vi at 
+$$
+\phi \overrightarrow{v} = \lambda a\overrightarrow{x} + \mu b\overrightarrow{y}
+$$
+Flytter vi over venstresida 
+$$
+\overrightarrow{0} = \lambda a\overrightarrow{x} + \mu b\overrightarrow{y} - \phi \overrightarrow{v}.
+$$
+Satt inn for $\overrightarrow{v}$ gir dette 
+$$
+\overrightarrow{0} = \lambda a\overrightarrow{x} + \mu b\overrightarrow{y} - \phi(a\overrightarrow{x} + b\overrightarrow{y}).
+$$
+Trekkes sammen leddene får vi at 
+$$
+\overrightarrow{0} = (\lambda - \phi)a\overrightarrow{x} + (\mu - \phi)b\overrightarrow{y}.
+$$
+Siden $\lambda \neq \mu$, kan ikke $\lambda - \phi$ og $\mu - \phi$ være null samtidig, og derfor må enten $a = 0$ eller $b = 0$, som var det som skulle bevises. Dette følger også fra setning 4.6.6, om man løser for $(\lambda - \phi)a = 0$ og $(\mu - \phi)b = 0$.
+
+\section*{Vedlegg}
+\subsection*{1) Numerisk beregning av integralet med riemannssum}
+\lstinputlisting[language=Python, firstline=1, lastline=25]{oblig2mat1110.py}
+\subsection*{2) Numerisk beregning med $\varepsilon < \frac{1}{10}$}
+\lstinputlisting[language=Python, firstline=26, lastline=48]{oblig2mat1110.py}
+
+\end{document}
+
+
+
+
+

@@ -1,0 +1,272 @@
+\documentclass[11pt,norsk]{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage[colorlinks]{hyperref}
+\usepackage{palatino}
+\usepackage[document]{ragged2e}
+\usepackage{float}
+
+% Standard stuff
+\usepackage{amsmath,graphicx,varioref,verbatim,amsfonts,geometry}
+% colors in text
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+% Hyper refs
+\usepackage[colorlinks]{hyperref}
+\usepackage[document]{ragged2e}
+
+% Document formatting
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{1.5mm}
+
+%Color scheme for listings
+\usepackage{textcomp}
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+
+%lengden av en vektor
+\newcommand{\norm}[1]{\lvert #1 \rvert}
+
+%Listings configuration
+\usepackage{listings}
+%Hvis du bruker noe annet enn python, endre det her for Ã¥ fÃ¥ riktig highlighting.
+\lstset{
+	backgroundcolor=\color{lbcolor},
+	tabsize=4,
+	rulecolor=,
+	language=python,
+        basicstyle=\scriptsize,
+        upquote=true,
+        aboveskip={1.5\baselineskip},
+        columns=fixed,
+	numbers=left,
+        showstringspaces=false,
+        extendedchars=true,
+        breaklines=true,
+        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+        frame=single,
+        showtabs=false,
+        showspaces=false,
+        showstringspaces=false,
+        identifierstyle=\ttfamily,
+        keywordstyle=\color[rgb]{0,0,1},
+        commentstyle=\color[rgb]{0.133,0.545,0.133},
+        stringstyle=\color[rgb]{0.627,0.126,0.941}
+        }
+        
+\newcounter{subproject}
+\renewcommand{\thesubproject}{\alph{subproject}}
+\newenvironment{subproj}{
+\begin{description}
+\item[\refstepcounter{subproject}(\thesubproject)]
+}{\end{description}}
+
+%Lettering instead of numbering in different layers
+%\renewcommand{\labelenumi}{\alph{enumi}}
+%\renewcommand{\thesubsection}{\alph{subsection}}
+
+
+%opening
+\begin{document}
+
+\title{Oblig 2\\
+\large{MEK1100}}
+\author{Lasse Steinnes}
+\date{23. April 2018} 
+\maketitle
+
+\section*{Introduksjon}
+Formålet med oppgaven var å analysere og beskrive et hastighetsfelt i luftmasser og væske, målt langs lengdesnittet til en sylinder (radius: 5 cm). Datasettet ble samlet ved hjelp av metoden "Particle Imaging Velocimetry" (PIV), i Hydrodynamisk Laboratorium ved matematisk institutt. Hastighetsfeltet for røret kan beskrives som
+$$
+\overrightarrow{v} = u\widehat{i} + v\widehat{j} + \omega\widehat{k}.
+$$
+
+Målingene ble kun foretatt for x -og y-komponenten, der $\widehat{i}$ går horisontalt langs røret og $\widehat{j}$ går vertikal. Det ble ikke foretatt noen målinger for $\widehat{k}$, i bredden på sylinderet.
+
+\section*{a) Nedlastning og oversikt over dataene}
+\begin{flushleft}
+All beskrivelse av metode som følger hører til koden i vedlegg 1. 
+\end{flushleft}
+\begin{flushleft}
+Datatabellene ble lastet ned ved hjelp av bioblioteket scientific python?s modul "input and output" ved hjelp av kommandoen "loadmat" for å laste dataene inn i programmeringsmiljøet, og "data.get" for å tildele objekter spesifikke datatyper. Ved hjelp av numpy?s "shape" ble det sjekket at hver matrise inneholdt 194 kolonner tilsvarende x-koordinater, og 201 rader tilsvarende y-koordinater. Den samme metoden ble benyttet for å sjekke at det var 194 punktmålinger for skillelinjen. Fra datasettet er det tydelig at matrisene X og Y tilsvarer et rutenett (grid) for å beskrive x-y-planet. 
+\end{flushleft}
+\begin{flushleft}
+For å kontrollere at punktene hadde punktmålinger med intervall 0.5 mm, ble det kjørt en stillegående test som tar differansen mellom alle punkter til den spesifikke matrisen. Y-koordinatene spant ut hele diameteren til røret ($10 cm = 100 mm$), noe som ble beregnet ved å ta summen av absoluttverdien til første og siste punktmåling i Y-matrisen. Dette følger fra et symmetrisk tverrsnitt.
+\end{flushleft}
+
+\section*{b) Farten til gass -og væskefasen}
+Konturlinjer gir en oversikt over området der et skalarfelt har den samme verdien. Konturfelt ble fremstilt for farten $\bold{v} = \sqrt{u^{2} + v^{2}}$ ved hjelp av pyplotmodulens kommando "contourf," som er tilgjengelig i matplotlib-biblioteket ($\ref{Fig 1}$, vedlegg 2).
+
+\begin{figure}[H]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=0.65]{Figure_1.png} 
+        \caption{Konturlinjene til farten $\bold{v} = \sqrt{u^{2} + v^{2}}$. Til venstre: Konturlinjer for $\bold{v} < 500$. Til høyre: Konturlinjer for $\bold{v} > 500$.}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 1}
+\end{figure}
+
+Hovedsakelig var farten i lufta større enn i væsken ($\ref{Fig 1}$). Imidlertid var konturlinjene over skilleflaten for $\bold{v} < 500$. Dette kan være en konsekvens av at væsken bremset ned gassfasen der disse var i fysisk kontakt med hverandre. Den samme effekten kan observeres der gassfasen møter veggen i sylinderet, øverst på y-aksen.
+
+\section*{c) Vektorfelt for hastigheten}
+Et vektorfelt for hastigheten viser retningen og den relative størrelsen til hastigheten i hvert punkt som tas med i den grafiske fremstillingen. Det ble laget et vektorfelt for hastigheten $\overrightarrow{v} = u\widehat{i} + v\widehat{j}$  i xy-planet, ved hjelp av pyplot's "quiver", med uthevede områder av interesse ($\ref{Fig 2}$, vedlegg 3). 
+
+\begin{figure}[H]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=0.9]{Figure_2.png} 
+        \caption{Vektorfelt av hastigheten $\overrightarrow{v} = u\widehat{i} + v\widehat{j}$. De tre rektanglene indikerer henholdsvis to områder i gassfasen, og en i væskefasen.}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 2}
+\end{figure}
+
+Vektorfeltet for hastigheten og konturlinjene stemmer overens. Hastigheten var størst i gassfasen som ikke var i fysisk kontakt med veggen i sylinderen eller skillelinjen til vannet. Langs kantene av sylinderen ble gassfasen bremset ned, og på grunn av kurven til skillelinja ble hastigheten ikke bare bremset ned, men resulterte i virvling langs vannoverflaten. Merk at disse målingene kun gjelder xy-planet. Hastigheten til væsken var svært sakte i forhold til gassfasen, noe som kan forklares fra viskositetsegenskapene til væsken.
+
+
+\section*{d) Divergensen til $\overrightarrow{v}$}
+Divergensen er definert til å være 
+$$
+\nabla\cdot\overrightarrow{v} = \frac{\delta u}{\delta x} + \frac{\delta v}{\delta y} + \frac{\delta \omega}{\delta z}.
+$$
+Fra definisjonen av den deriverte,  kan divergensen beregnes numerisk ved å finne divergensen i hvert punkt. Dette kan gjøres for hver komponent i divergensen ved å ta gjennomsnittet  av to intervaller
+$$
+(\frac{\delta u}{\delta x})_{i,j} = \frac{1}{2}(\frac{u_{i+1,j} - u_{i,j}}{\Delta x} + \frac{u_{i,j} - u_{i-1,j}}{\Delta x})
+$$
+$$
+				= \frac{u_{i+1,j} - u_{i-1,j}}{2 \Delta x}.
+$$
+
+Dette ble utført for alle komponentene, sett bort fra z-komponenten. Dermed tilsvarer ikke divergensen beregnet fra datamålingene, den faktiske divergensen. Konturlinjer for divergensen ble fremstilt med kommandoen "contourf" ($\ref{Fig 3}$, vedlegg 4). 
+
+\begin{figure}[h]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=0.9]{Figure_3.png} 
+        \caption{Konturlinjer av divergensen i hastighetsfeltet $\overrightarrow{v} = u\widehat{i} + v\widehat{j}$. De tre rektanglene indikerer henholdsvis to områder i gassfasen, og en i væskefasen.}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 3}
+\end{figure}
+
+
+Divergensen var størst i gassfasen, med utbredte områder med konturfarger tilsvarende høyere divergens. Dette samsvarer med høyere hastighet i gassfasen, da divergensen er definert som den integrerte fluksen per volumelement. Den integrerte fluksen vil øke med økt hastighet i retningen ut av overflaten som utspenner volumet.  
+\begin{flushleft}
+Siden gassen og væsken er inkompresible faser, forventes det at tettheten mellom partiklene i målingene ikke skal endres.  Dette innebærer at den totale divergensen er lik 0. Som følge av at divergensen ikke var 0 i målingen for divergensen i xy-planet,  må det også ha vært divergens i z-retning for å motvirke divergensen i de andre retningene. Når gassfasene skyver væsken fremover, vil det med andre ord også skyve en del væske til hver av sidene av sylinderen.
+\end{flushleft}
+
+\section*{e) Virvlingen til $\overrightarrow{v}$}
+Virvlingen er definert som $\nabla\times\overrightarrow{v}$. Vertikalt på xy-planet ligger z-planet, og denne komponenten av virvlingen blir 
+$$
+curl(v)\widehat{k} = (\frac{\delta v}{\delta x} - \frac{\delta u}{\delta y})\widehat{k}.
+$$
+
+Virvlingen ble beregnet numerisk med en metode tilsvarende tilnærmingen til den deriverte benyttet i seksjon (d). Det ble fremstilt konturlinjer for virvlingen sammen med strømlinjene for hastighetsfeltet ($\ref{Fig 4}$, vedlegg 5). Strømlinjene har punktene hastighetsfeltet som tangent, og beskriver hvordan en partikkel ville beveget seg langs gass -eller væskefasen.
+
+\begin{figure}[h]
+        \centering 
+        %Scale angir stÃ¸rrelsen pÃ¥ bildet. Bildefilen mÃ¥ ligge i samme mappe som tex-filen. 
+        \includegraphics[scale=0.9]{Figure_4.png} 
+        \caption{Konturlinjer av virvlingen i hastighetsfeltet $\overrightarrow{v} = u\widehat{i} + v\widehat{j}$. De blå linjene illustrer strømlinjer med hastighetsfeltet som tangent. De tre rektanglene indikerer henholdsvis to områder i gassfasen, og en i væskefasen.}
+        %Label gjÃ¸r det enkelt Ã¥ referere til ulike bilder.
+        \label{Fig 4}
+\end{figure}
+
+\begin{flushleft}
+I det midtre laget av gassfasen (øverste rektangel) var det lite virvling, noe som resulterte i tilnærmet horisontale strømlinjer ($\ref{Fig 4}$). Imidlertidig var det tydelig divergens over og under skillelinjen mellom de to fasene, noe som samsvarer med vektorfeltet for hastigheten ($\ref{Fig 3}$). I væskefasen bøyer strømlinjene i y-retning, noe som tilsvarer positiv virvling.  I gassfasen, rett over skillelinja, var virvlingen svært negativ, fordi gassen bremses ned over bølgetoppen. Langs bunn av sylinderen ble væsken bremset av veggen, og tilsvarende effekt kan observeres i strømlinjene. Den øverste veggen av sylinderen i y-retning har svært positiv virvling. Denne bremsningen kan forklares ved hjelp av friksjon mellom to faser/kjemiske forbindelser, og man kan forvente at dette skjer langs de andre kontaktoverflatene i sylinderen. Dermed burde det også være virvling x -og y-retningene. Dersom antakelsen om at virvling og friksjon holder vil virvlingen være størst der farten er størst, som følge av at friksjonen øker med hastighet.
+ \end{flushleft}
+ 
+\section*{f) Sirkulasjonen til hastighetsfeltet}
+Stokes sats kan utledes fra definisjonen av virvling, slik at 
+$$
+\oint\oint_{A} \overrightarrow{n}\cdot(\nabla \times \overightarrow{v}) dA =  \oint_{S} \overrightarrow{v} dr.
+$$
+Sirkulasjonen rundt et rektangel i xy-planet kan dermed enten beregnes som et kurveintegral, eller et flateintegral, gitt at kurven er lukket. Beregningene ble utført numerisk ved hjelp av for-løkker, med tilnærming for integrasjon som sum (vedlegg 6). For kurveintegralet betyr dette at 
+$$
+ \oint_{S} \overrightarrow{v} dx \approx \sum_{i}^{k} v_{j,i}\cdot dx,
+$$
+for en fast j-indeks (y-verdi) for den første kurven i x-retning, og tilsvarende for de tre andre kurvene som utgjør rektangelet. Sirkulasjonen beregnet som flateintegral kan tilnærmes numerisk med dobbeltsummen
+
+$$
+\oint\oint_{A} \overrightarrow{n}\cdot(\nabla \times \overightarrow{v}) dA \approx \sum_{i}^{k} \sum_{j}^{n} {curl_{j,i} dx dy.
+$$
+
+Sirkulasjonen ble tilnærmet lik uavhengig av metode (Tabell 1). Utsnittet av Rektangel 1 er tegnet inn øverst i gassfasen, der det var lite virvling. Strømmen i dette området var omtrent horisontalt. Her vil man derfor forvente lite bidrag i sirkulasjonen fra de vertikale sidene (grønn, svart), og mye fra de horisontale. Fordi bidraget i sirkulasjonen avhenger av bevegelsesretningen langs kurven, vil en positiv omdreining gi negativ sirkulasjon på oversiden (blå) og positiv på undersiden (rød). For rektangel 1 stemmer dette overens med datamålingene. 
+
+\begin{center}
+\caption{Tabell 1: Sirkulasjonen som kurveintegral og flateintegral [$mm^{2}/{s}$] .}
+\begin{tabular}{c | c c c c c |c}
+
+\hline
+Rektangel/side & Rød & Grønn & Blå & Svart & Totalsum kurveintegral & Flateintegral \\
+\hline
+Rektangel 1 & 70100.52  & 266.2736 & -68332.85 & 661.5727 & 2695.514 & 2621.559\\   
+Rektangel 2 & 198.4756 &  300.2166 & -61243.46 &  -231.8276 & -60976.60 & -61482.54\\  
+Rektangel 3 & 3798.576 & 163.6094 &   -4009.835 &  78.30288  &    30.65300 & -12.21433\\
+\hline  
+\end{tabular}
+\end{center}
+
+Rett over skillelinja var virvlingen sterkt negativ ($\ref{Fig 4}$), noe som betyr at virvlingen går mot høyre (negativ omdreining om $\widehat{k}$). Dette burde resultere i en negativ sirkulasjon langs den blå og svarte siden i rektangelet, slik datamålingene viser. Imidlertid var ikke sirkulasjonen negativ for den røde og grønne siden i utsnittet, men for den røde undersiden var det betydelig lavere enn for tilsvarende side i rektangel 1. Dette kan skyldes at virvlingene var svært lokal. Dette fanger flateintegralet opp, fordi mye av virvlingene befinner seg midt i flaten av rektangel 2.  I vannet, for utsnittet 3, er effekten motsatt under bølgetoppen, med svakt positiv virvling (positiv omdreining). Den svakt positive virvlingen gjør at sirkulasjonen for undersiden og oversiden av rektangelet motvirker hverandre, hvilket resulterer i omtrent null virvling. 
+\begin{flushleft}
+De numeriske beregningene presentert ovenfor viser at to forskjellige metoder gir omtrent likt resultat for sirkulasjonen (tabell 1). Dersom nøyaktigheten i datasettet øker og presisjonen i metoden som fanger opp bevegelsene til partiklene i hastighetsfeltet forbedres, er det mulig at de to metodene kunne gitt svar som lå nærmere hverandre. Eventuelt er det måten den numeriske integrasjonen er utført på som gir utslag, og det er mulig at en høyere nøyaktig kunne blitt oppnådd med bruk av trapesmetoden.  Konturfargene for virvling antyder at strømlinjene ikke fanger opp alle de lokale virvlingsfenomene. Med flere datapunkter vil dette også kunne bedres, fordi strømlinjene er tangent til hastighetesfeltet bestående av punktmålinger.
+\end{flushleft}
+
+
+\section*{g) Den integrerte fluksen til $\overrightarrow{v}$}
+For en lukket flate gjelder Gauss sats, som kan utledes fra definisjonen av divergens,
+$$
+\int_{\tau} \nabla\cdot \overrightarrow{v} = \int_{A} \overrightarrow{v}\cdot\overrightarrow{n} dA.
+$$
+
+Som følge av at hastighetsfeltet er inkompresibelt, burde den integrerte fluksen være lik 0, fordi $\nabla\cdot\overrightarrow{v} = 0$. En numerisk løsning for den integrerte fluksen ble beregnet ved hjelp av høyre side av ligningen over (vedlegg 7, tabell 2).
+
+
+\begin{center}
+\caption{Tabell 2: Integrert fluks til hastighetsfeltet ut langs kantene av utsnittene i xy-planet [$mm^{3}/{s}$] }
+\begin{tabular}{c | c c c c |c}
+
+\hline
+Rektangel/side & Rød & Grønn & Blå & Svart & Sum integrert fluks\\
+\hline
+Rektangel 1 & 1556.868 &  21664.56   & -2059.677  & -21056.90 & 104.8526 \\   
+Rektangel 2 & -5187.564 &  14782.53  & -4074.052  & -11997.85  & -6476.939 \\  
+Rektangel 3 & -195.5701 & 1536.821 &  284.9436  &  -1750.763  & -124.5686\\
+\hline  
+\end{tabular}
+\end{center}
+
+\begin{flushleft} 
+For det første utsnittet ble den totale fluksen positiv (Tabell 2). Det betyr at det strømmer netto gass ut fra dette flateutsnittet. Siden strømlinjen i området var vinklet skrått nedover, førte dette til negativ fluks inn i utsnittet fra venstre sidekant og ovenfra. Det strømmet gass ut fra nedsiden og høyre sidekant. I kontrast ble fluksen for rektangel 3 negativ, 
+fordi strømlinjen var vinklet oppover mot skilleflaten, og retningen til strømlinjen gjenspeiles i strømning ut på høyre sidekant og på oversiden. 
+\end{flushleft}
+\begin{flushleft}
+Fluksen fra det andre utstnittet ble negativ som følge av virvlingen i negativ omdreiningsretning.  Virvlingen medførte en strømning inn fra alle kanter, med unntak av høyre sidekant. Således underbygger både resultatet fra fluksen og sirkulasjonen tilstedeværelsen av en negativ virvling, selv om denne ikke kommer tydelig frem i strømlinjene.
+ \end{flushleft}
+Siden fluksen ifølge Gauss sats burde vært null, må det bety at en fluks ut av flatene i z-retningen utjevnet den totale fluksen i xy-planet. I strømningsfeltet som ble studert må det eksistere en fluks/strømning ut mot kantene i sylinderen. 
+
+\section{Vedlegg}
+\subsection*{1) Nedlasting og oversikt over dataene}
+\lstinputlisting[language=Python, firstline=1, lastline=78]{mek1100oblig2.py} % Oppgave a
+
+\subsection*{2) Grafisk fremstilling av farten til gass -og væskefasen}
+\lstinputlisting[language=Python, firstline=80, lastline=112]{mek1100oblig2.py} % b
+
+\subsection*{3)Vektorfelt for hastigheten}
+\lstinputlisting[language=Python, firstline=113, lastline=135]{mek1100oblig2.py} %c 
+
+\subsection*{4) Divergensen til $\overrightarrow{v}$}
+\lstinputlisting[language=Python, firstline=137, lastline=163]{mek1100oblig2.py} % d
+
+\subsection*{5) Virvlingen til $\overrightarrow{v}}
+\lstinputlisting[language=Python, firstline=164, lastline=188]{mek1100oblig2.py} % e
+
+\subsection*{6)Sirkulasjonen til hastighetsfeltet}
+\lstinputlisting[language=Python, firstline=189, lastline=236]{mek1100oblig2.py} % f 
+
+\subsection*{7) Den integrerte fluksen til $\overrightarrow{v}$}
+\lstinputlisting[language=Python, firstline=238, lastline=261]{mek1100oblig2.py} % g
+
+\end{document}
+
